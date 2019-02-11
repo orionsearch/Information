@@ -19,16 +19,21 @@ class OrionSearch {
     var filters: [String]
     
     init(data: [[String: Any]] = [], keys: [String], filters: [String] = []) // keys should be ordered by priority
-    add(data: [[String: Any]])
-    add(keys: [String]) // keys will be added after original keys
-    add(filters: [String])
+    func add(data: [[String: Any]])
+    func add(keys: [String]) // keys will be added after original keys
+    func add(filters: [String])
     
     /* Search */
     enum OSSearchType {
         case normal
 	case advanced // machine learning related
     }
-    perform(search: OSQuery, type: OSSearchType = .normal, completion: (OSRecord) -> Void) throws
+    func perform(search: OSQuery, type: OSSearchType = .normal, completion: (OSRecord) -> Void) throws
     
+    /* Plugins */
+    // this is private, but I want to make sure that you know how plugins work
+    typealias OSPlugin = ([[OSRecord]]) -> [OSRecord]
+    private var plugins: Array<OSPlugin> = []
+    func registerPlugin(_ plugin: OSPlugin)
 }
 ```
